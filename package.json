@@ -1,0 +1,23 @@
+{
+  "name": "musicpro",
+  "version": "1.0.0",
+  "description": "Un proyecto realizado para integracion de plataformas en Duoc UC 2023",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuanOlivares97/MusicPro.git"
+  },
+  "author": "Juan Olivares y Catalina Lazo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JuanOlivares97/MusicPro/issues"
+  },
+  "homepage": "https://github.com/JuanOlivares97/MusicPro#readme",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}
