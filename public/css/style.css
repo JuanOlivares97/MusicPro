@@ -7,6 +7,10 @@ h1>a{
   color: #B9BABC;
 }
 
+.center{
+  text-align: center;
+}
+
 h2, h3, h4, h5, h6 {
   color: #2B2D42;
   font-weight: 700;
