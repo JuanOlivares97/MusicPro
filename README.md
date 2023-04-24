@@ -1,3 +1,3 @@
-gracias por usarme
+npm install dotenv mysql express ejs
 
 

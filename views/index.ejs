@@ -225,17 +225,19 @@
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
 										<!-- product -->
+										<% filas.forEach(function(producto) { %>
 										<div class="product">
 											<div class="product-img">
-												<img src="resources/img/mezclador-connect.jpg" alt="">
+												<img src="<%= producto.imagen %>" alt="">
 												<div class="product-label">
 													<span class="new">Nuevo</span>
 												</div>
 											</div>
+											
 											<div class="product-body">
-												<p class="product-category">Accesorios</p>
-												<h3 class="product-name"><a href="#">Mezclador Connect 802 USB Wharfedale Pro</a></h3>
-												<h4 class="product-price">$91.990  <del class="product-old-price">$99.990</del></h4>
+												<p class="product-category"><%= producto.categoria %></p>
+												<h3 class="product-name"><a href="#"><%= producto.descripcion %></a></h3>
+												<h4 class="product-price">$<%= producto.precio %> </h4>
 												<div class="product-rating">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
@@ -252,126 +254,8 @@
 												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
 											</div>
 										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="resources/img/amplificador-guitarra-electrica.jpg" alt="">
-												<div class="product-label">
-													<span class="new">Nuevo</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Accesorios</p>
-												<h3 class="product-name"><a href="#">Amplificador Guitarra Electrica MG10G Marshall</a></h3>
-												<h4 class="product-price">$89.990  <del class="product-old-price">$99.990</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Añadir a favoritos</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Vista rápida</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="resources/img/mandolina-12-cuerdas.jpg" alt="">
-												<div class="product-label">
-													<span class="new">Nuevo</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Cuerdas</p>
-												<h3 class="product-name"><a href="#">Mandolina 12 cuerdas con funda </a></h3>
-												<h4 class="product-price">$119.990  <del class="product-old-price">$136.990</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Añadir a favoritos</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Vista rápida</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="resources/img/teclado-5-octavas.jpg" alt="">
-												<div class="product-label">
-													<span class="new">Nuevo</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Electricos</p>
-												<h3 class="product-name"><a href="#">Teclado 5 octavas PSRE273 Yamaha</a></h3>
-												<h4 class="product-price">$179.990  <del class="product-old-price">$199.990</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Añadir a favoritos</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Vista rápida</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="resources/img/bateria-electronica-e-drum-total-alesis.jpg" alt="">
-												<div class="product-label">
-													<span class="new">Nuevo</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Percusion</p>
-												<h3 class="product-name"><a href="#">Bateria Electronica E-Drum Total Alesis</a></h3>
-												<h4 class="product-price">$349.990 <del class="product-old-price">$499.999</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Añadir a favoritos</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Vista rápida</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
-											</div>
-										</div>
+										<% }); %>
+										
 										<!-- /product -->
 									</div>
 									<div id="slick-nav-1" class="products-slick-nav"></div>
