@@ -10,11 +10,14 @@ dotenv.config({path:'./env/.env'});
 const connection = require('./database/db'); 
 
 app.get('/', (req, res) => {
-  connection.query('SELECT * FROM productos', function(error, filas) {
+  connection.query('SELECT * FROM productos WHERE categoria IN ("Electrico", "Percusion")', function(error, productos) {
     if (error) {
       throw error;
     } else {
-      res.render('index', { filas: filas});
+      const electricos = productos.filter(producto => producto.categoria === 'Electrico');
+      const percusion = productos.filter(producto => producto.categoria === 'Percusion');
+      res.render('index.ejs', { electricos, percusion });
+      console.log(productos);
     }
   });
 });

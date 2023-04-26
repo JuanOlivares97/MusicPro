@@ -1,3 +1,3 @@
-npm install dotenv mysql express ejs
+npm install dotenv mysql express ejs nodemon
 
 
