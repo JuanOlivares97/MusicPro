@@ -35,7 +35,7 @@ app.use('/resources',express.static(__dirname+'/public'));
 // Ruta de error 404
 app.use(function(req, res, next) {
   res.status(404);
-  res.render('store.ejs', { title: '404 - Not Found', message: 'Oops! Page not found.' });
+  res.render('error.ejs', { title: '404 - Not Found', message: 'Oops! Page not found.' });
 });
 
 
