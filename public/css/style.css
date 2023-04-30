@@ -238,6 +238,24 @@ textarea.input {
 }
 
 /*----------------------------*\
+	LOGIN
+\*----------------------------*/
+.login-form{
+  font-size: 1.5rem;
+  margin: auto;
+  text-align: center;
+}
+.login-form .container{
+  width: 300px;
+  margin: 0 auto;
+}
+.login-form h1{
+  text-align: center;
+  font-size: 28px;
+  padding: 70px 0 10px 0;
+}
+
+/*----------------------------*\
 	Section
 \*----------------------------*/
 
@@ -1801,7 +1819,7 @@ textarea.input {
 
 .order-details {
   position: relative;
-  padding: 0px 30px 30px;
+  padding: 0px 25px 25px;
   border-right: 1px solid #E4E7ED;
   border-left: 1px solid #E4E7ED;
   border-bottom: 1px solid #E4E7ED;
@@ -1900,13 +1918,13 @@ textarea.input {
   left: -90px;
 }
 
-.newsletter form .input {
+.newsletter form .input .login-form{
   width: calc(100% - 160px);
   margin-right: -4px;
   border-radius: 40px 0px 0px 40px;
 }
 
-.newsletter form .newsletter-btn {
+.newsletter form .newsletter-btn .login-form{
   width: 160px;
   height: 40px;
   font-weight: 700;
