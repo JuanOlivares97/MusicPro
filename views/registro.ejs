@@ -82,39 +82,38 @@
 	<div class="section">
 		<!-- container -->
 		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-6 order-details">
-					<!-- Billing Details -->
-					<div class="section-title text-center">
-						<h3 class="title">Iniciar Sesion</h3>
-					</div>
-					<div class="login-form">
-						<form action="/auth" method="POST">
-							<input type="text" name="user" id="user" placeholder="User" required>
-							<input type="password" name="pass" id="pass" placeholder="Password" required>
-							<input type="submit" class="btn-login" value="Login">
-						</form>
-					</div>
-				</div>
-				<!-- /Billing Details -->
+			<!-- Order Details -->
+			<div class="col-md-5 order-details center">
+				<div class="register-form" style="display: inline;">
+					<h1>Crear cuenta</h1>
+					<form action="/registro" method="POST">
+						<label for="user">Nombre completo</label>
+						<input type="text" name="user" required>
 
+						<label for="correo">Correo</label>
+						<input type="text" name="correo" required>
 
-				<!-- Order Details -->
-				<div class="col-md-6 order-details">
-					<div class="section-title text-center">
-						<h3 class="title">Registrar</h3>
-					</div>
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit. Inventore unde, cumque voluptates
-					accusantium suscipit fugiat iste, magnam aspernatur laudantium amet ipsam cum accusamus veritatis
-					non. Adipisci quas et porro facere?<br>
-					<a href="/registro" class="primary-btn text-center">Crear Cuenta</a>
-					<h5 class="title">Tambien puede <a href="/">Continuar como invitado</a> </h5>
+						<label for="phone">Telefono</label>
+						<input type="number" name="phone" required>
+
+						<label for="rut">Rut</label>
+						<input type="number" name="rut" required>
+
+						<label for="pass">Contraseña</label>
+						<input type="password" name="pass" required>
+
+						<div style="display: inline;">
+							<a href="/" class="btn-cancel">Cancel</a><input type="submit" class="btn-save" value="Save">
+						</div>
+					</form>
 				</div>
+				<br>
+				<h5 class="title">Tambien puede <a href="/">Continuar como invitado</a> </h5>
 			</div>
-			<!-- /row -->
 		</div>
-		<!-- /container -->
+		<!-- /row -->
+	</div>
+	<!-- /container -->
 	</div>
 	<!-- /SECTION -->
 

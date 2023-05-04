@@ -40,6 +40,7 @@ ul, ol {
 	Buttons
 \*----------------------------*/
 
+
 .primary-btn {
   display: inline-block;
   padding: 12px 30px;
@@ -237,8 +238,10 @@ textarea.input {
   max-height: 800px;
 }
 
+
+
 /*----------------------------*\
-	LOGIN
+	REGISTRO
 \*----------------------------*/
 .login-form{
   font-size: 1.5rem;
@@ -253,6 +256,39 @@ textarea.input {
   text-align: center;
   font-size: 28px;
   padding: 70px 0 10px 0;
+}
+.login-form input[type="password"],
+.login-form input[type="text"]{
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ced4da;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+/*----------------------------*\
+	REGISTRO
+\*----------------------------*/
+
+.register-form{
+  font-size: 1.5rem;
+  margin: auto;
+  text-align: center;
+}
+
+.register-form .container{
+  width: 300px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.register-form input[type="password"],
+.register-form input[type="text"],
+.register-form input[type="number"]{
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ced4da;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
 /*----------------------------*\
@@ -1818,8 +1854,9 @@ textarea.input {
 }
 
 .order-details {
+  align-items: center;
   position: relative;
-  padding: 0px 25px 25px;
+  padding: 10px 50px 30px;
   border-right: 1px solid #E4E7ED;
   border-left: 1px solid #E4E7ED;
   border-bottom: 1px solid #E4E7ED;
