@@ -63,7 +63,7 @@ app.post('/registro', async (req, res) => {
   });
 })
 //FIN DEL REGISTRO//
-////////
+
 //LOGIN
 app.post('/', async (req, res) => {
   const user = req.body.user;
