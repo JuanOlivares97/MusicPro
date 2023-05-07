@@ -69,7 +69,7 @@ app.post('/', async (req, res) => {
   const user = req.body.user;
   const pass = req.bosy.pass;
   if (user && pass) {
-    connection.query('SELECT * FROM usuarios where user = ?', [user], async (error, results) => {
+    connection.query('SELECT * FROM usuarios WHERE user = ?', [user], async (error, results) => {
       if (results.length == 0 || !(await bcryptjs.compare(pass, results[0].pass))) {
         res.render('login', {
           alert: true,
