@@ -241,7 +241,7 @@ textarea.input {
 
 
 /*----------------------------*\
-	REGISTRO
+	LOGIN
 \*----------------------------*/
 .login-form{
   font-size: 1.5rem;
@@ -259,31 +259,6 @@ textarea.input {
 }
 .login-form input[type="password"],
 .login-form input[type="text"]{
-  width: 100%;
-  padding: 15px;
-  border: 1px solid #ced4da;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-}
-/*----------------------------*\
-	REGISTRO
-\*----------------------------*/
-
-.register-form{
-  font-size: 1.5rem;
-  margin: auto;
-  text-align: center;
-}
-
-.register-form .container{
-  width: 300px;
-  margin: 0 auto;
-  align-items: center;
-}
-
-.register-form input[type="password"],
-.register-form input[type="text"],
-.register-form input[type="number"]{
   width: 100%;
   padding: 15px;
   border: 1px solid #ced4da;
