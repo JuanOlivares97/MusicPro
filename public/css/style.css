@@ -430,6 +430,15 @@ textarea.input {
 
 .header-logo {
   float: left;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.header-logo > a{
+  font-size: 5rem;
+  color: #B9BABC;
+
+}
+.header-logo > a:hover{
+  color: #D10024;
 }
 
 .header-logo img {
