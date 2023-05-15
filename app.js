@@ -25,6 +25,30 @@ app.get('/', (req, res) => {
   });
 });
 
+//Carrito 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/login', (req, res) => {
   res.render('login')
 })
