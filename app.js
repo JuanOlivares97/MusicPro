@@ -1,9 +1,9 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
 const bcryptjs = require('bcryptjs');
 
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 
 const dotenv = require('dotenv');
 dotenv.config({ path: './env/.env' });
@@ -26,25 +26,6 @@ app.get('/', (req, res) => {
 });
 
 //Carrito 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,40 +1,50 @@
 function agregarAlCarrito(nombre, precio, img) {
-  // Obtén los productos del carrito del almacenamiento local
-  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-  // Verificar si el producto ya existe en el carrito
-  var productoExistente = carrito.find(function (producto) {
-    return producto.nombre === nombre;
-  });
-
-  if (productoExistente) {
-    // Si el producto existe, incrementa la cantidad y actualiza el precio total
-    productoExistente.cantidad++;
-    productoExistente.precioTotal =
-      productoExistente.cantidad * productoExistente.precio;
-  } else {
-    // Si el producto no existe, crea un nuevo objeto con los datos del producto
-    var producto = {
-      nombre: nombre,
-      precio: parseFloat(precio),
-      img: img,
-      cantidad: 1,
-      precioTotal: parseFloat(precio), // Precio total inicialmente igual al precio unitario
-    };
-
-    // Agrega el producto al carrito
-    carrito.push(producto);
+    // Obtén los productos del carrito del almacenamiento local
+    var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  
+    // Verificar si el producto ya existe en el carrito
+    var productoExistente = carrito.find(function (producto) {
+      return producto.nombre === nombre;
+    });
+  
+    if (productoExistente) {
+      // Si el producto existe, incrementa la cantidad y actualiza el precio total
+      productoExistente.cantidad++;
+      productoExistente.precioTotal = productoExistente.cantidad * productoExistente.precio;
+    } else {
+      // Si el producto no existe, crea un nuevo objeto con los datos del producto
+      var producto = {
+        nombre: nombre,
+        precio: parseFloat(precio),
+        img: img,
+        cantidad: 1,
+        precioTotal: parseFloat(precio), // Precio total inicialmente igual al precio unitario
+      };
+  
+      // Agrega el producto al carrito
+      carrito.push(producto);
+    }
+  
+    // Muestra la alerta de éxito
+    new swal({
+      title: "Producto agregado",
+      text: "El producto se ha añadido al carrito.",
+      icon: "success",
+      button: "Aceptar",
+      customClass: {
+        confirmButton: "swal-button swal-button--danger",
+      },
+    });
+  
+    // Guarda los productos del carrito actualizados en el almacenamiento local
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  
+    // Actualiza la vista del carrito
+    actualizarCarritoView();
+  
+    // Recalcula el subtotal y lo muestra
+    calcularSubtotal();
   }
-
-  // Guarda los productos del carrito actualizados en el almacenamiento local
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-
-  // Actualiza la vista del carrito
-  actualizarCarritoView();
-
-  // Recalcula el subtotal y lo muestra
-  calcularSubtotal();
-}
 
 function actualizarCarritoView() {
   // Obtén la referencia al elemento donde se mostrará el carrito
@@ -146,4 +156,4 @@ window.addEventListener("load", function () {
   actualizarCarritoView();
 });
 // Llama a la función para limpiar el carrito cuando se recargue la página o se cierre la ventana
-window.addEventListener("beforeunload", limpiarCarrito);
+
