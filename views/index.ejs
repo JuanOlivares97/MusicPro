@@ -14,6 +14,14 @@
 	<link rel="stylesheet" href="resources/css/font-awesome.min.css">
 	<link type="text/css" rel="stylesheet" href="resources/css/style.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+	<script defer src="resources/js/jquery.min.js"></script>
+	<script defer src="resources/js/bootstrap.min.js"></script>
+	<script defer src="resources/js/slick.min.js"></script>
+	<script defer src="resources/js/nouislider.min.js"></script>
+	<script defer src="resources/js/jquery.zoom.min.js"></script>
+	<script defer src="resources/js/main.js"></script>
+	<script defer src="resources/js/script.js"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -26,8 +34,13 @@
 					<li><a href="#"><i class="fa fa-map-marker"></i> Providencia, Santiago. Chile</a></li>
 				</ul>
 				<ul class="header-links pull-right">
-					<li><a href="/login"><i class="fa fa-user-o"></i> Mi Cuenta</a></li>
-				</ul>
+					<% if (login) { %>
+					  <li><a href="/index"><i class="fa fa-user-o"></i><%= name %></a></li>
+					  <li><a href="/logout"><i class="fa fa-user-o"></i>Cerrar Sesión</a></li>
+					<% } else { %>
+					  <li><a href="/login"><i class="fa fa-user-o"></i><%= name %></a></li>
+					<% } %>
+				  </ul>				  
 			</div>
 		</div>
 		<div id="header">
@@ -65,7 +78,7 @@
 										<h5>SUBTOTAL: $</h5>
 									</div>
 									<div class="cart-btns">
-										<a href="#">Pagar<i class="fa fa-arrow-circle-right"></i></a>
+										<a href="/checkout-user" >Pagar<i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
 							</div>
@@ -550,14 +563,7 @@
 		</footer>
 		<!-- /FOOTER -->
 		<!-- jQuery Plugins -->
-		<script src="resources/js/jquery.min.js"></script>
-		<script src="resources/js/bootstrap.min.js"></script>
-		<script src="resources/js/slick.min.js"></script>
-		<script src="resources/js/nouislider.min.js"></script>
-		<script src="resources/js/jquery.zoom.min.js"></script>
-		<script src="resources/js/main.js"></script>
-		<script src="resources/js/script.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+		
 </body>
 
 </html>

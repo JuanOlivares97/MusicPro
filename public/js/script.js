@@ -1,50 +1,51 @@
 function agregarAlCarrito(nombre, precio, img) {
-    // Obtén los productos del carrito del almacenamiento local
-    var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  
-    // Verificar si el producto ya existe en el carrito
-    var productoExistente = carrito.find(function (producto) {
-      return producto.nombre === nombre;
-    });
-  
-    if (productoExistente) {
-      // Si el producto existe, incrementa la cantidad y actualiza el precio total
-      productoExistente.cantidad++;
-      productoExistente.precioTotal = productoExistente.cantidad * productoExistente.precio;
-    } else {
-      // Si el producto no existe, crea un nuevo objeto con los datos del producto
-      var producto = {
-        nombre: nombre,
-        precio: parseFloat(precio),
-        img: img,
-        cantidad: 1,
-        precioTotal: parseFloat(precio), // Precio total inicialmente igual al precio unitario
-      };
-  
-      // Agrega el producto al carrito
-      carrito.push(producto);
-    }
-  
-    // Muestra la alerta de éxito
-    new swal({
-      title: "Producto agregado",
-      text: "El producto se ha añadido al carrito.",
-      icon: "success",
-      button: "Aceptar",
-      customClass: {
-        confirmButton: "swal-button swal-button--danger",
-      },
-    });
-  
-    // Guarda los productos del carrito actualizados en el almacenamiento local
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-  
-    // Actualiza la vista del carrito
-    actualizarCarritoView();
-  
-    // Recalcula el subtotal y lo muestra
-    calcularSubtotal();
+  // Obtén los productos del carrito del almacenamiento local
+  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  // Verificar si el producto ya existe en el carrito
+  var productoExistente = carrito.find(function (producto) {
+    return producto.nombre === nombre;
+  });
+
+  if (productoExistente) {
+    // Si el producto existe, incrementa la cantidad y actualiza el precio total
+    productoExistente.cantidad++;
+    productoExistente.precioTotal =
+      productoExistente.cantidad * productoExistente.precio;
+  } else {
+    // Si el producto no existe, crea un nuevo objeto con los datos del producto
+    var producto = {
+      nombre: nombre,
+      precio: parseFloat(precio),
+      img: img,
+      cantidad: 1,
+      precioTotal: parseFloat(precio), // Precio total inicialmente igual al precio unitario
+    };
+
+    // Agrega el producto al carrito
+    carrito.push(producto);
   }
+
+  // Muestra la alerta de éxito
+  new swal({
+    title: "Producto agregado",
+    text: "El producto se ha añadido al carrito.",
+    icon: "success",
+    button: "Aceptar",
+    customClass: {
+      confirmButton: "swal-button swal-button--danger",
+    },
+  });
+
+  // Guarda los productos del carrito actualizados en el almacenamiento local
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+
+  // Actualiza la vista del carrito
+  actualizarCarritoView();
+
+  // Recalcula el subtotal y lo muestra
+  calcularSubtotal();
+}
 
 function actualizarCarritoView() {
   // Obtén la referencia al elemento donde se mostrará el carrito
@@ -116,6 +117,36 @@ function actualizarCarritoView() {
   qtyElement.textContent = cantidadProductos;
 }
 
+function llenarOrderSummary() {
+  var orderSummaryDiv = document.getElementsByClassName("order-products")[0];
+  orderSummaryDiv.innerHTML = "";
+
+  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  var total = 0;
+
+  carrito.forEach(function (producto) {
+    var orderColDiv = document.createElement("div");
+    orderColDiv.classList.add("order-col");
+
+    var productNameDiv = document.createElement("div");
+    productNameDiv.textContent = producto.cantidad + "x " + producto.nombre;
+
+    var productTotalDiv = document.createElement("div");
+    productTotalDiv.textContent = "$" + producto.precioTotal.toFixed(2);
+
+    orderColDiv.appendChild(productNameDiv);
+    orderColDiv.appendChild(productTotalDiv);
+
+    orderSummaryDiv.appendChild(orderColDiv);
+
+    total += producto.precioTotal;
+  });
+
+  var orderTotalDiv = document.getElementsByClassName("order-total")[0];
+  orderTotalDiv.textContent = "$" + total.toFixed(2);
+}
+
 function eliminarDelCarrito(index) {
   // Obtén los productos del carrito del almacenamiento local
   var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -139,7 +170,7 @@ function calcularSubtotal() {
   var subtotal = carrito.reduce(function (total, producto) {
     return total + producto.precioTotal;
   }, 0);
-
+  console.log(subtotal);
   // Muestra el subtotal en el elemento con clase "cart-summary"
   var cartSummary = document.querySelector(".cart-summary");
   var subtotalElement = cartSummary.querySelector("h5");
@@ -150,10 +181,55 @@ function limpiarCarrito() {
   localStorage.removeItem("carrito");
 }
 
+function guardarCarrito() {
+  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  var subtotal = carrito.reduce(function (total, producto) {
+    return total + producto.precioTotal;
+  }, 0);
+
+  const data = {
+    totalCompra: subtotal,
+  };
+  console.log(data);
+  // Configuración de la solicitud
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  // Realizar la solicitud
+  fetch("/guardar-carrito", options)
+    .then((response) => response.json())
+    .then((data) => {
+      // Manejar la respuesta
+      console.log(data);
+    })
+    .catch((error) => {
+      // Manejar el error
+      console.error(error);
+    });
+    
+    limpiarCarrito();
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Verifica si la página actual corresponde a la ruta "checkout"
+  if (
+    window.location.pathname === "/checkout-user" ||
+    window.location.pathname === "/checkout-invite"
+  ) {
+    // Llama a la función para llenar los div en la página de checkout
+    llenarOrderSummary();
+  }
+});
 // Llama a la función para calcular el subtotal y actualizar el carrito cuando se cargue la página
 window.addEventListener("load", function () {
   calcularSubtotal();
   actualizarCarritoView();
+  llenarOrderSummary();
 });
-// Llama a la función para limpiar el carrito cuando se recargue la página o se cierre la ventana
-

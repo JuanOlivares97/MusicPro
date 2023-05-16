@@ -17,6 +17,15 @@
 	<link type="text/css" rel="stylesheet" href="resources/css/nouislider.min.css" />
 	<link rel="stylesheet" href="resources/css/font-awesome.min.css">
 	<link type="text/css" rel="stylesheet" href="resources/css/style.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+	<script defer src="resources/js/jquery.min.js"></script>
+		<script defer src="resources/js/bootstrap.min.js"></script>
+		<script defer src="resources/js/slick.min.js"></script>
+		<script defer src="resources/js/nouislider.min.js"></script>
+		<script defer src="resources/js/jquery.zoom.min.js"></script>
+		<script defer src="resources/js/main.js"></script>
+		<script defer src="resources/js/script.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -29,8 +38,13 @@
 					<li><a href="#"><i class="fa fa-map-marker"></i> Providencia, Santiago. Chile</a></li>
 				</ul>
 				<ul class="header-links pull-right">
-					<li><a href="/login"><i class="fa fa-user-o"></i> Mi Cuenta</a></li>
-				</ul>
+					<% if (login) { %>
+					  <li><a href="/index"><i class="fa fa-user-o"></i><%= name %></a></li>
+					  <li><a href="/logout"><i class="fa fa-user-o"></i>Cerrar Sesión</a></li>
+					<% } else { %>
+					  <li><a href="/login"><i class="fa fa-user-o"></i><%= name %></a></li>
+					<% } %>
+				  </ul>	
 			</div>
 		</div>
 		<div id="header">
@@ -53,47 +67,6 @@
 					<!-- ACCOUNT -->
 					<div class="col-md-3">
 						<div class="header-ctn" style="display: flex !important; justify-content: flex-end;">
-							<!-- Cart -->
-							<div class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-									<i class="fa fa-shopping-cart"></i>
-									<span>Mi Carrito</span>
-									<div class="qty">0</div>
-								</a>
-								<div class="cart-dropdown">
-									<div class="cart-list">
-										<div class="product-widget">
-											<div class="product-img">
-												<img src="./img/product01.png" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-											</div>
-											<button class="delete"><i class="fa fa-close"></i></button>
-										</div>
-
-										<div class="product-widget">
-											<div class="product-img">
-												<img src="./img/product02.png" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-											</div>
-											<button class="delete"><i class="fa fa-close"></i></button>
-										</div>
-									</div>
-									<div class="cart-summary">
-										<small>3 Item(s) selected</small>
-										<h5>SUBTOTAL: $2940.00</h5>
-									</div>
-									<div class="cart-btns">
-										<a href="#">View Cart</a>
-										<a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
-									</div>
-								</div>
-							</div>
 							<!-- Menu Toogle -->
 							<div class="menu-toggle">
 								<a href="#">
@@ -126,8 +99,8 @@
 					</div>
 					<div class="login-form">
 						<form action="/auth" method="POST">
-							<input type="text" name="user" id="user" placeholder="User" required>
-							<input type="password" name="pass" id="pass" placeholder="Password" required>
+							<input type="text" name="user" id="user" placeholder="Usuario" required>
+							<input type="password" name="pass" id="pass" placeholder="Contraseña" required>
 							<input type="submit" class="primary-btn" value="Login">
 						</form>
 					</div>
@@ -148,7 +121,7 @@
 							<a href="/registro" class="primary-btn center">Crear Cuenta</a>
 						</center>
 					</div><br>
-					<h5 class="title">Tambien puede <a href="/">Continuar como invitado</a> </h5>
+					<h5 class="title">Tambien puede <a href="/checkout-invite">Continuar como invitado</a> </h5>
 				</div>
 			</div>
 			<!-- /row -->
@@ -298,13 +271,7 @@
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script src="resources/js/jquery.min.js"></script>
-	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/js/slick.min.js"></script>
-	<script src="resources/js/nouislider.min.js"></script>
-	<script src="resources/js/jquery.zoom.min.js"></script>
-	<script src="resources/js/main.js"></script>
-
+	
 
 </body>
 
