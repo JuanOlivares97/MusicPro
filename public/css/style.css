@@ -1891,6 +1891,10 @@ textarea.input {
   font-size: 24px;
   color: #D10024;
 }
+.order-summary .order-col .order-total-discount {
+  font-size: 24px;
+  color: #D10024;
+}
 
 .order-details .payment-method {
   margin: 30px 0px;

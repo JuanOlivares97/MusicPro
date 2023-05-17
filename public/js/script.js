@@ -1,4 +1,4 @@
-function agregarAlCarrito(nombre, precio, img) {
+function agregarAlCarrito(ref, nombre, precio, img) {
   // Obtén los productos del carrito del almacenamiento local
   var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -15,6 +15,7 @@ function agregarAlCarrito(nombre, precio, img) {
   } else {
     // Si el producto no existe, crea un nuevo objeto con los datos del producto
     var producto = {
+      referencia: ref,
       nombre: nombre,
       precio: parseFloat(precio),
       img: img,
@@ -124,6 +125,44 @@ function llenarOrderSummary() {
   var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
   var total = 0;
+  var cantidadArticulos = 0;
+
+  carrito.forEach(function (producto) {
+    var orderColDiv = document.createElement("div");
+    orderColDiv.classList.add("order-col");
+
+    var productNameDiv = document.createElement("div");
+    productNameDiv.textContent = producto.cantidad + "x " + producto.nombre;
+
+    var productTotalDiv = document.createElement("div");
+    productTotalDiv.textContent = "$" + producto.precioTotal.toFixed(2);
+
+    orderColDiv.appendChild(productNameDiv);
+    orderColDiv.appendChild(productTotalDiv);
+
+    orderSummaryDiv.appendChild(orderColDiv);
+
+    total += producto.precioTotal;
+    cantidadArticulos += producto.cantidad;
+  });
+
+  var descuento = 0;
+  if (cantidadArticulos >= 4) {
+    descuento = 0.2;
+  }
+
+  var totalConDescuento = total - total * descuento;
+  var orderTotalDiscountDiv = document.querySelector(".order-total-discount");
+  orderTotalDiscountDiv.textContent = "$" + totalConDescuento.toFixed(2);
+}
+
+function llenarOrderSummaryInvitado() {
+  var orderSummaryDiv = document.getElementsByClassName("order-products")[0];
+  orderSummaryDiv.innerHTML = "";
+
+  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  var total = 0;
 
   carrito.forEach(function (producto) {
     var orderColDiv = document.createElement("div");
@@ -181,14 +220,45 @@ function limpiarCarrito() {
   localStorage.removeItem("carrito");
 }
 
-function guardarCarrito() {
+function guardarCarritoUser() {
+  var nombre = document.getElementsByName("nombre")[0].value;
+  var apellido = document.getElementsByName("apellido")[0].value;
+  var correo = document.getElementsByName("correo")[0].value;
+  var direccion = document.getElementsByName("direccion")[0].value;
+  var ciudad = document.getElementsByName("ciudad")[0].value;
+  var telefono = document.getElementsByName("telefono")[0].value;
   var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   var subtotal = carrito.reduce(function (total, producto) {
     return total + producto.precioTotal;
   }, 0);
+  console.log(carrito);
+  const productos = carrito.map(function (producto) {
+    return {
+      referencia: producto.referencia,
+      nombreProducto: producto.nombre,
+      precioProducto: producto.precio,
+      cantidad: producto.cantidad,
+    };
+  });
+
+  const descuento =
+    productos.reduce(function (total, producto) {
+      return total + producto.cantidad;
+    }, 0) > 4
+      ? 0.2
+      : 0;
+
+  const totalConDescuento = subtotal - subtotal * descuento;
 
   const data = {
-    totalCompra: subtotal,
+    totalCompra: totalConDescuento,
+    productos: productos,
+    nombre: nombre,
+    apellido: apellido,
+    correo: correo,
+    direccion: direccion,
+    ciudad: ciudad,
+    telefono: telefono,
   };
   console.log(data);
   // Configuración de la solicitud
@@ -211,20 +281,72 @@ function guardarCarrito() {
       // Manejar el error
       console.error(error);
     });
-    
-    limpiarCarrito();
+
+  limpiarCarrito();
 }
 
+function guardarCarrito() {
+  var nombre = document.getElementsByName("nombre")[0].value;
+  var apellido = document.getElementsByName("apellido")[0].value;
+  var correo = document.getElementsByName("correo")[0].value;
+  var direccion = document.getElementsByName("direccion")[0].value;
+  var ciudad = document.getElementsByName("ciudad")[0].value;
+  var telefono = document.getElementsByName("telefono")[0].value;
+  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  var subtotal = carrito.reduce(function (total, producto) {
+    return total + producto.precioTotal;
+  }, 0);
+  console.log(carrito);
+  const productos = carrito.map(function (producto) {
+    return {
+      referencia: producto.referencia,
+      nombreProducto: producto.nombre,
+      precioProducto: producto.precio,
+      cantidad: producto.cantidad,
+    };
+  });
+  const data = {
+    totalCompra: subtotal,
+    productos: productos,
+    nombre: nombre,
+    apellido: apellido,
+    correo: correo,
+    direccion: direccion,
+    ciudad: ciudad,
+    telefono: telefono,
+  };
+  console.log(data);
+  // Configuración de la solicitud
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
 
+  // Realizar la solicitud
+  fetch("/guardar-carrito", options)
+    .then((response) => response.json())
+    .then((data) => {
+      // Manejar la respuesta
+      console.log(data);
+    })
+    .catch((error) => {
+      // Manejar el error
+      console.error(error);
+    });
+
+  limpiarCarrito();
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   // Verifica si la página actual corresponde a la ruta "checkout"
-  if (
-    window.location.pathname === "/checkout-user" ||
-    window.location.pathname === "/checkout-invite"
-  ) {
+  if (window.location.pathname === "/checkout-user") {
     // Llama a la función para llenar los div en la página de checkout
     llenarOrderSummary();
+  } else if (window.location.pathname === "/checkout-invite") {
+    llenarOrderSummaryInvitado();
   }
 });
 // Llama a la función para calcular el subtotal y actualizar el carrito cuando se cargue la página

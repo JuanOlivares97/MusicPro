@@ -1,6 +1,16 @@
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'jua.olivares97@gmail.com', // Dirección de correo electrónico desde la que se enviará el mensaje
+    pass: 'kzcdporiudsjjukn' // Contraseña de la cuenta de correo electrónico
+  }
+});
+
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
+
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 app.set("view engine", "ejs");
@@ -9,6 +19,7 @@ dotenv.config({ path: "./env/.env" });
 const connection = require("./database/db");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -19,7 +30,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-// Generar un token
 //LOGIN
 app.post("/auth", (req, res) => {
   const user = req.body.user;
@@ -104,9 +114,7 @@ app.get("/", (req, res) => {
 
         if (req.cookies.token) {
           try {
-            const decoded = jwt.verify(req.cookies.token, "secret"); // Reemplaza 'secreto' con tu propia clave secreta
-            const user = decoded.user;
-            const correo = decoded.correo;
+            const user = req.session.user;
             res.render("index.ejs", {
               electricos,
               percusion,
@@ -242,31 +250,91 @@ app.get("/logout", (req, res) => {
 app.post('/guardar-carrito', (req, res) => {
   // Obtener los datos de la solicitud
   const totalCompra = req.body.totalCompra;
-  console.log(totalCompra);
-  const id = req.session.idUser;
-  //Realizar la inserción en la base de datos
-  const query = 'INSERT INTO `compra`(`total`, `cliente_id`) VALUES (?,?)';
-  if(req.session.idUser){
-    connection.query(query, [totalCompra, id], function(err, result) {
-      if (err) {
-        console.error('Error al ingresar los datos en la base de datos:', err);
-        res.status(500).json({ error: 'Error al ingresar los datos' });
-      } else {
-        console.log('Datos ingresados correctamente');
-        res.status(200).json({ message: 'Datos ingresados correctamente' });
-      }
-    });
-  } else {
-    connection.query(query, [totalCompra, 1], function(err, result) {
-      if (err) {
-        console.error('Error al ingresar los datos en la base de datos:', err);
-        res.status(500).json({ error: 'Error al ingresar los datos' });
-      } else {
-        console.log('Datos ingresados correctamente');
-        res.status(200).json({ message: 'Datos ingresados correctamente' });
-      }
-    });
-  }
+  const idCliente = req.session.idUser;
+  const productos = req.body.productos;
+  const nombre= req.body.nombre;
+  const apellido= req.body.apellido;
+  const correo= req.body.correo;
+  const direccion= req.body.direccion;
+  const ciudad= req.body.ciudad;
+  const telefono= req.body.telefono;
+  // Realizar la inserción en la tabla "compra"
+  const queryCompra = 'INSERT INTO `compra`(`total`, `cliente_id`, `NombreCliente`, `ApellidoCliente`, `CorreoElectronico`, `Direccion`, `Ciudad`, `Telefono`) VALUES (?,?,?,?,?,?,?,?)';
+  connection.query(queryCompra, [totalCompra, idCliente,nombre,apellido,correo,direccion,ciudad,telefono], function(err, resultCompra) {
+    if (err) {
+      console.error('Error al ingresar los datos en la tabla "compra":', err);
+      res.status(500).json({ error: 'Error al ingresar los datos' });
+    } else {
+      const compraId = resultCompra.insertId; // Obtener el ID de la compra insertada
+      console.log('Datos de compra ingresados correctamente. ID de compra:', compraId);
+
+      // Recorrer los productos y realizar la inserción en la tabla "detalle compra"
+      const queryDetalleCompra = 'INSERT INTO `detalle_compra`(`compra_id`, `referencia`, `producto_nombre`, `precio`, `cantidad`) VALUES (?, ?, ?, ?, ?)';
+      productos.forEach(function (producto) {
+        const { referencia, nombreProducto, precioProducto, cantidad } = producto;
+        connection.query(queryDetalleCompra, [compraId, referencia, nombreProducto, precioProducto, cantidad], function(err, resultDetalleCompra) {
+          if (err) {
+            console.error('Error al ingresar los datos en la tabla "detalle compra":', err);
+          } else {
+            console.log('Datos de detalle compra ingresados correctamente');
+          }
+        });
+      });
+      productos.forEach(function (producto) {
+        const { referencia, cantidad } = producto;
+        console.log(referencia, cantidad);
+        const queryActualizarStock = 'UPDATE `productos` SET `stock` = `stock` - ? WHERE `referencia` = ?';
+        connection.query(queryActualizarStock, [cantidad, referencia], function(err, resultActualizarStock) {
+          if (err) {
+            console.error('Error al actualizar el stock del producto:', err);
+          } else {
+            console.log('Stock actualizado correctamente');
+          }
+        });
+      });
+      res.status(200).json({ message: 'Datos ingresados correctamente' });
+    }
+  });
+  const mailOptions = {
+    from: 'jua.olivares97@gmail.com', // Dirección de correo electrónico del remitente
+    to: correo, // Dirección de correo electrónico del destinatario
+    subject: '!Pedido Realizado!', // Asunto del correo
+    html: `
+    <h2>Detalles de Transferencia Bancaria</h2>
+    <p>A continuación se muestran los detalles de la transferencia bancaria a la cuenta corriente de Falabella:</p>
+    <table>
+      <tr>
+        <th>Banco Destinatario:</th>
+        <td>Banco Falabella</td>
+      </tr>
+      <tr>
+        <th>Número de Cuenta:</th>
+        <td>1234567890</td>
+      </tr>
+      <tr>
+        <th>Rut del Titular:</th>
+        <td>12.345.678-9</td>
+      </tr>
+      <tr>
+        <th>Nombre del Titular:</th>
+        <td>Nombre del Titular</td>
+      </tr>
+      <tr>
+        <th>Monto a Transferir:</th>
+        <td>$${totalCompra}</td>
+      </tr>
+    </table>
+    <p>Por favor, asegúrate de realizar la transferencia por el monto exacto y verificar los datos antes de realizar la transacción.</p>
+    <p>¡Gracias por tu atención!</p>
+  ` // Contenido del correo en formato de texto sin formato
+  };
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.error('Error al enviar el correo:', error);
+    } else {
+      console.log('Correo enviado:', info.response);
+    }
+  });
 });
 
 

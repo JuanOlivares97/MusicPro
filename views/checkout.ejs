@@ -145,22 +145,22 @@
 							  <h3 class="title">Despacho</h3>
 							</div>
 							<div class="form-group">
-							  <input class="input" type="text" name="nombre" placeholder="Nombre" value="<%= name.nombre %>">
+							  <input required class="input" type="text" name="nombre" placeholder="Nombre" value="<%= name.nombre %>">
 							</div>
 							<div class="form-group">
-							  <input class="input" type="text" name="apellido" placeholder="Apellido" value="<%= name.apellido %>">
+							  <input required class="input" type="text" name="apellido" placeholder="Apellido" value="<%= name.apellido %>">
 							</div>
 							<div class="form-group">
-							  <input class="input" type="email" name="correo" placeholder="Correo Electrónico" value="<%= email %>">
+							  <input required class="input" type="email" name="correo" placeholder="Correo Electrónico" value="<%= email %>">
 							</div>
 							<div class="form-group">
-							  <input class="input" type="text" name="direccion" placeholder="Dirección" value="<%= direccion %>">
+							  <input required class="input" type="text" name="direccion" placeholder="Dirección" value="<%= direccion %>">
 							</div>
 							<div class="form-group">
-							  <input class="input" type="text" name="ciudad" placeholder="Ciudad" value="<%= ciudad %>">
+							  <input required class="input" type="text" name="ciudad" placeholder="Ciudad" value="<%= ciudad %>">
 							</div>
 							<div class="form-group">
-							  <input class="input" type="tel" name="telefono" placeholder="Telefono" value="<%= telefono %>">
+							  <input required class="input" type="tel" name="telefono" placeholder="Telefono" value="<%= telefono %>">
 							</div>
 						  </div>
 						  
@@ -193,12 +193,10 @@
 							</div>
 							<div class="order-products">
 								<div class="order-col">
-									<div>1x Product Name Goes Here</div>
-									<div>$980.00</div>
+						
 								</div>
 								<div class="order-col">
-									<div>2x Product Name Goes Here</div>
-									<div>$980.00</div>
+						
 								</div>
 							</div>
 							<div class="order-col">
@@ -207,7 +205,11 @@
 							</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">$2940.00</strong></div>
+								<% if (login) { %>
+									<div><strong class="order-total-discount"></strong></div>
+								  <% } else { %>
+									<div><strong class="order-total"></strong></div>
+								  <% } %>
 							</div>
 						</div>
 						<div class="payment-method">
@@ -249,7 +251,12 @@
 								He leido los <a href="#"> Terminos y Condiciones</a>
 							</label>
 						</div>
-						<a href="#" class="primary-btn order-submit" onclick="guardarCarrito()">Realizar pedido</a>
+						<% if (login) { %>
+							<a href="#" class="primary-btn order-submit" onclick="guardarCarritoUser()">Realizar pedido</a>
+						  <% } else { %>
+							<a href="#" class="primary-btn order-submit" onclick="guardarCarrito()">Realizar pedido</a>
+						  <% } %>
+						
 					</div>
 					<!-- /Order Details -->
 				</div>
