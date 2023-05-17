@@ -24,6 +24,20 @@
     box-sizing: border-box;
   }
 
+  .imgcontainer>a{
+    color: #2B2D42;
+    font-weight: 500;
+    -webkit-transition: 0.2s color;
+    transition: 0.2s color;
+    font-size: 5rem;
+  }
+  
+  a:hover, a:focus {
+    color: #D10024;
+    text-decoration: none;
+    outline: none;
+  }
+
   .order-details .payment-method {
     margin: 30px 0px;
   }
@@ -46,11 +60,12 @@
 }
 form {
   border: 3px solid #f1f1f1;
+  height: 100%;
   width: 40%;
+  
 }
 
 .button {
-
   display: inline-block;
   padding: 12px 30px; 
   background-color: #04AA6D;
@@ -116,8 +131,9 @@ span.psw {
   font-size: 1.5rem;
   margin: auto;
   text-align: center;
+  
 }
-.register-form .container{
+.register-form .contenedor{
   width: 300px;
   margin: 0 auto;
 }
