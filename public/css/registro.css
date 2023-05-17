@@ -1,6 +1,9 @@
 /*----------------------------*\
 	REGISTRO
 \*----------------------------*/
+body{
+  background-color: #ced4da;
+}
 
 .register-form{
     font-size: 1.5rem;
@@ -19,9 +22,10 @@
   .contenedor input[type="number"]{
     width: 100%;
     padding: 15px;
-    border: 1px solid #ced4da;
+    border: 1px solid darkgray;
     margin-bottom: 10px;
     box-sizing: border-box;
+    border-radius: 35px;
   }
 
   .imgcontainer>a{
@@ -30,6 +34,10 @@
     -webkit-transition: 0.2s color;
     transition: 0.2s color;
     font-size: 5rem;
+    
+  }
+  .imgcontainer{
+    padding-bottom: 50px;
   }
   
   a:hover, a:focus {
@@ -59,15 +67,15 @@
   height: 100vh;
 }
 form {
-  border: 3px solid #f1f1f1;
-  height: 100%;
-  width: 40%;
-  
+  border: 3px solid #ced4da;
+  height: 80%;
+  width: 38%;
+
 }
 
 .button {
   display: inline-block;
-  padding: 12px 30px; 
+  padding: 12px 50px; 
   background-color: #04AA6D;
   border: none;
   border-radius: 40px;
@@ -93,7 +101,7 @@ button:hover {
 
 .primary-btn {
   display: inline-block;
-  padding: 12px 30px;
+  padding: 12px 45px;
   background-color: #D10024;
   border: none;
   border-radius: 40px;
