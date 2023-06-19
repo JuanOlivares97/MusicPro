@@ -392,37 +392,38 @@
 						<div class="newsletter">
 							<h1>Conversor de Moneda</h1>
 
-  <label for="totalPesos">Total en Pesos Chilenos:</label>
-  <input type="number" id="totalPesos" placeholder="Ingrese el total en pesos chilenos" step="1">
+							<label for="totalPesos">Total en Pesos Chilenos:</label>
+							<input class="input-number" type="number" id="totalPesos" placeholder="Ingrese el total en pesos chilenos"
+								step="1">
+							<br>
+							<button onclick="convertirAPesosChilenos()" class="primary-btn">Convertir</button>
+							<br>
+							<label id="resultado"></label>
 
-  <button onclick="convertirAPesosChilenos()">Convertir</button>
+							<script>
+								function convertirAPesosChilenos() {
+									var totalPesosInput = document.getElementById("totalPesos");
+									var totalPesosChilenos = parseFloat(totalPesosInput.value);
 
-  <label id="resultado"></label>
+									if (isNaN(totalPesosChilenos)) {
+										alert("Por favor, ingrese un número válido en pesos chilenos.");
+										return;
+									}
 
-  <script>
-    function convertirAPesosChilenos() {
-      var totalPesosInput = document.getElementById("totalPesos");
-      var totalPesosChilenos = parseFloat(totalPesosInput.value);
+									var apiUrl = "https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=208800264&pass=OduHKwAEiLqM&firstdate=2023-06-09&timeseries=F073.TCO.PRE.Z.D";
 
-      if (isNaN(totalPesosChilenos)) {
-        alert("Por favor, ingrese un número válido en pesos chilenos.");
-        return;
-      }
-
-      var apiUrl = "https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=208800264&pass=OduHKwAEiLqM&firstdate=2023-06-09&timeseries=F073.TCO.PRE.Z.D";
-
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          var tipoCambio = parseFloat(data.Series.Obs[0].value);
-          var totalDolares = totalPesosChilenos / tipoCambio;
-          document.getElementById("resultado").textContent = "Total en dólares: $" + totalDolares.toFixed(2);
-        })
-        .catch(error => {
-          console.error("Error al obtener el tipo de cambio:", error);
-        });
-    }
-  </script>
+									fetch(apiUrl)
+										.then(response => response.json())
+										.then(data => {
+											var tipoCambio = parseFloat(data.Series.Obs[0].value);
+											var totalDolares = totalPesosChilenos / tipoCambio;
+											document.getElementById("resultado").textContent = "Total en dólares: $" + totalDolares.toFixed(2);
+										})
+										.catch(error => {
+											console.error("Error al obtener el tipo de cambio:", error);
+										});
+								}
+							</script>
 						</div>
 					</div>
 				</div>
