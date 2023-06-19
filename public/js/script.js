@@ -150,7 +150,7 @@ function llenarOrderSummary() {
   if (cantidadArticulos >= 4) {
     descuento = 0.2;
   }
-
+  
   var totalConDescuento = total - total * descuento;
   var orderTotalDiscountDiv = document.querySelector(".order-total-discount");
   orderTotalDiscountDiv.textContent = "$" + totalConDescuento.toFixed(2);
@@ -181,7 +181,7 @@ function llenarOrderSummaryInvitado() {
 
     total += producto.precioTotal;
   });
-
+  
   var orderTotalDiv = document.getElementsByClassName("order-total")[0];
   orderTotalDiv.textContent = "$" + total.toFixed(2);
 }
@@ -283,7 +283,8 @@ function guardarCarritoUser() {
     });
 
   limpiarCarrito();
-}
+  window.location.href = "http://localhost:3000/tbnk/transbank?amount="+subtotal;
+};
 
 function guardarCarrito() {
   var nombre = document.getElementsByName("nombre")[0].value;
@@ -338,6 +339,42 @@ function guardarCarrito() {
     });
 
   limpiarCarrito();
+  window.location.href = "http://localhost:3000/tbnk/transbank?amount="+subtotal;
+};
+
+function enviarTransbankUser(){
+  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  var subtotal = carrito.reduce(function (total, producto) {
+    return total + producto.precioTotal;
+  }, 0);
+  console.log(carrito);
+  const productos = carrito.map(function (producto) {
+    return {
+      referencia: producto.referencia,
+      nombreProducto: producto.nombre,
+      precioProducto: producto.precio,
+      cantidad: producto.cantidad,
+    };
+  });
+
+  const descuento =
+    productos.reduce(function (total, producto) {
+      return total + producto.cantidad;
+    }, 0) > 4
+      ? 0.2
+      : 0;
+
+  const totalConDescuento = subtotal - subtotal * descuento;
+  window.location.href = "http://localhost:3000/tbnk/transbank?amount="+totalConDescuento;
+}
+
+function enviarTransbank(){
+  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  var subtotal = carrito.reduce(function (total, producto) {
+    return total + producto.precioTotal;
+  }, 0);
+
+  window.location.href = "http://localhost:3000/tbnk/transbank?amount="+subtotal;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -355,3 +392,4 @@ window.addEventListener("load", function () {
   actualizarCarritoView();
   llenarOrderSummary();
 });
+

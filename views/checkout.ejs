@@ -207,8 +207,10 @@
 								<div><strong>TOTAL</strong></div>
 								<% if (login) { %>
 									<div><strong class="order-total-discount"></strong></div>
+								
 								  <% } else { %>
 									<div><strong class="order-total"></strong></div>
+								
 								  <% } %>
 							</div>
 						</div>
@@ -220,7 +222,27 @@
 									Transferencia Bancaria
 								</label>
 								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+									<center>
+										<table>
+											<tr>
+											  <th>Banco Destinatario:</th>
+											  <td>Banco Falabella</td>
+											</tr>
+											<tr>
+											  <th>Número de Cuenta:</th>
+											  <td>1234567890</td>
+											</tr>
+											<tr>
+											  <th>Rut del Titular:</th>
+											  <td>12.345.678-9</td>
+											</tr>
+											<tr>
+											  <th>Nombre del Titular:</th>
+											  <td>Nombre del Titular</td>
+											</tr>
+										</table>
+									</center>
+									<br>
 								</div>
 							</div>
 							<div class="input-radio">
@@ -228,16 +250,6 @@
 								<label for="payment-2">
 									<span></span>
 									WebPay
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-3">
-								<label for="payment-3">
-									<span></span>
-									Paypal
 								</label>
 								<div class="caption">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -252,9 +264,11 @@
 							</label>
 						</div>
 						<% if (login) { %>
+								<!-- onclick="guardarCarritoUser()" -->
 							<a href="#" class="primary-btn order-submit" onclick="guardarCarritoUser()">Realizar pedido</a>
 						  <% } else { %>
-							<a href="#" class="primary-btn order-submit" onclick="guardarCarrito()">Realizar pedido</a>
+							<!-- onclick="guardarCarrito()" -->
+							<a href="#" class="primary-btn order-submit" onclick="guardarCarrito()" >Realizar pedido</a>
 						  <% } %>
 						
 					</div>

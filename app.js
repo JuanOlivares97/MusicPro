@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
     pass: 'kzcdporiudsjjukn' // Contraseña de la cuenta de correo electrónico
   }
 });
-
+const cors = require("cors")
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,7 +19,7 @@ dotenv.config({ path: "./env/.env" });
 const connection = require("./database/db");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-
+const transbankRoute = require('./routes/transbankRoutes.js')
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,6 +30,9 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(cors())
+
+
 //LOGIN
 app.post("/auth", (req, res) => {
   const user = req.body.user;
@@ -90,7 +93,12 @@ app.post("/auth", (req, res) => {
     });
   }
 });
-
+app.get("/login", (req, res) => {
+  res.render("login", {
+    login: false,
+    name: "Iniciar Sesión",
+  });
+});
 //INDEX
 app.get("/", (req, res) => {
   connection.query(
@@ -148,12 +156,6 @@ app.get("/", (req, res) => {
   );
 });
 
-app.get("/login", (req, res) => {
-  res.render("login", {
-    login: false,
-    name: "Iniciar Sesión",
-  });
-});
 //REGISTRO//
 app.get("/registro", (req, res) => {
   res.render("registro");
@@ -213,7 +215,7 @@ app.get("/checkout-user", (req, res) => {
             telefono: user.telefono,
             rut: user.rut,
             direccion: user.direccion,
-            ciudad: user.ciudad,
+            ciudad: user.ciudad
           });
         }
       }
@@ -258,6 +260,7 @@ app.post('/guardar-carrito', (req, res) => {
   const direccion= req.body.direccion;
   const ciudad= req.body.ciudad;
   const telefono= req.body.telefono;
+
   // Realizar la inserción en la tabla "compra"
   const queryCompra = 'INSERT INTO `compra`(`total`, `cliente_id`, `NombreCliente`, `ApellidoCliente`, `CorreoElectronico`, `Direccion`, `Ciudad`, `Telefono`) VALUES (?,?,?,?,?,?,?,?)';
   connection.query(queryCompra, [totalCompra, idCliente,nombre,apellido,correo,direccion,ciudad,telefono], function(err, resultCompra) {
@@ -337,6 +340,8 @@ app.post('/guardar-carrito', (req, res) => {
   });
 });
 
+
+app.use('/tbnk',transbankRoute)
 
 app.use("/resources", express.static("public"));
 app.use("/resources", express.static(__dirname + "/public"));

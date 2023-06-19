@@ -390,25 +390,39 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="newsletter">
-							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
-							<form>
-								<input class="input" type="email" placeholder="Enter Your Email">
-								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
-							</form>
-							<ul class="newsletter-follow">
-								<li>
-									<a href="#"><i class="fa fa-facebook"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-twitter"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-instagram"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-pinterest"></i></a>
-								</li>
-							</ul>
+							<h1>Conversor de Moneda</h1>
+
+  <label for="totalPesos">Total en Pesos Chilenos:</label>
+  <input type="number" id="totalPesos" placeholder="Ingrese el total en pesos chilenos" step="1">
+
+  <button onclick="convertirAPesosChilenos()">Convertir</button>
+
+  <label id="resultado"></label>
+
+  <script>
+    function convertirAPesosChilenos() {
+      var totalPesosInput = document.getElementById("totalPesos");
+      var totalPesosChilenos = parseFloat(totalPesosInput.value);
+
+      if (isNaN(totalPesosChilenos)) {
+        alert("Por favor, ingrese un número válido en pesos chilenos.");
+        return;
+      }
+
+      var apiUrl = "https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=208800264&pass=OduHKwAEiLqM&firstdate=2023-06-09&timeseries=F073.TCO.PRE.Z.D";
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          var tipoCambio = parseFloat(data.Series.Obs[0].value);
+          var totalDolares = totalPesosChilenos / tipoCambio;
+          document.getElementById("resultado").textContent = "Total en dólares: $" + totalDolares.toFixed(2);
+        })
+        .catch(error => {
+          console.error("Error al obtener el tipo de cambio:", error);
+        });
+    }
+  </script>
 						</div>
 					</div>
 				</div>

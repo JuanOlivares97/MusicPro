@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+		<link type="text/css" rel="stylesheet" href="resources/css/bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" href="resources/css/slick.css" />
+		<link type="text/css" rel="stylesheet" href="resources/css/slick-theme.css" />
+		<link type="text/css" rel="stylesheet" href="resources/css/nouislider.min.css" />
+		<link rel="stylesheet" href="resources/css/font-awesome.min.css">
+		<link type="text/css" rel="stylesheet" href="resources/css/style.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+		<script defer src="resources/js/jquery.min.js"></script>
+		<script defer src="resources/js/bootstrap.min.js"></script>
+		<script defer src="resources/js/slick.min.js"></script>
+		<script defer src="resources/js/nouislider.min.js"></script>
+		<script defer src="resources/js/jquery.zoom.min.js"></script>
+		<script defer src="resources/js/main.js"></script>
+		<script defer src="resources/js/script.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>  
+</head>
+<body>
+    <div class="container" style="display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-7">
+                <!-- Billing Details -->
+                <div class="billing-details">
+                    <div class="section-title">
+                      <h3 class="title">Despacho</h3>
+                    </div>
+                    <div class="form-group">
+                      <input required class="input" type="text" name="nombre" placeholder="Nombre" value="<%= name.nombre %>">
+                    </div>
+                    <div class="form-group">
+                      <input required class="input" type="text" name="apellido" placeholder="Apellido" value="<%= name.apellido %>">
+                    </div>
+                    <div class="form-group">
+                      <input required class="input" type="email" name="correo" placeholder="Correo Electrónico" value="<%= email %>">
+                    </div>
+                    <div class="form-group">
+                      <input required class="input" type="text" name="direccion" placeholder="Dirección" value="<%= direccion %>">
+                    </div>
+                    <div class="form-group">
+                      <input required class="input" type="text" name="ciudad" placeholder="Ciudad" value="<%= ciudad %>">
+                    </div>
+                    <div class="form-group">
+                      <input required class="input" type="tel" name="telefono" placeholder="Telefono" value="<%= telefono %>">
+                    </div>
+                  </div>
+                  
+                <!-- /Billing Details -->
+
+                <!-- Shiping Details -->
+                <div class="shiping-details">
+                    <div class="section-title">
+                        <h3 class="title">Dirección de Despacho</h3>
+                    </div>
+                </div>
+                <!-- /Shiping Details -->
+
+                <!-- Order notes -->
+                <div class="order-notes">
+                    <textarea class="input" placeholder="Notas para el despacho"></textarea>
+                </div>
+                <!-- /Order notes -->
+            </div>
+
+            <!-- Order Details -->
+            <div class="col-md-5 order-details" id="resumenPedido">
+                <div class="section-title text-center">
+                    <h3 class="title">Tu pedido</h3>
+                </div>
+                <div class="order-summary">
+                    <div class="order-col">
+                        <div><strong>PRODUCTO</strong></div>
+                        <div><strong>SUBTOTAL</strong></div>
+                    </div>
+                    <div class="order-products">
+                        <div class="order-col">
+                
+                        </div>
+                        <div class="order-col">
+                
+                        </div>
+                    </div>
+                    <div class="order-col">
+                        <div>Despacho</div>
+                        <div><strong>¡Gratis!</strong></div>
+                    </div>
+                    <div class="order-col">
+                        <div><strong>TOTAL</strong></div>
+                        <% if (login) { %>
+                            <div><strong class="order-total-discount"></strong></div>
+                          <% } else { %>
+                            <div><strong class="order-total"></strong></div>
+                          <% } %>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <div class="input-radio">
+                        <input type="radio" name="payment" id="payment-1">
+                        <label for="payment-1">
+                            <span></span>
+                            Transferencia Bancaria
+                        </label>
+                        <div class="caption">
+                            <center>
+                                <table>
+                                    <tr>
+                                      <th>Banco Destinatario:</th>
+                                      <td>Banco Falabella</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Número de Cuenta:</th>
+                                      <td>1234567890</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Rut del Titular:</th>
+                                      <td>12.345.678-9</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Nombre del Titular:</th>
+                                      <td>Nombre del Titular</td>
+                                    </tr>
+                                </table>
+                            </center>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="input-radio">
+                        <input type="radio" name="payment" id="payment-2">
+                        <label for="payment-2">
+                            <span></span>
+                            WebPay
+                        </label>
+                        <div class="caption">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-checkbox">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">
+                        <span></span>
+                        He leido los <a href="#"> Terminos y Condiciones</a>
+                    </label>
+                </div>
+                <% if (login) { %>
+                        <!-- onclick="guardarCarritoUser()" -->
+                    <a href="" class="primary-btn order-submit" onclick="guardarCarritoUser()">Enviar Correo</a>
+                  <% } else { %>
+                    <!-- onclick="guardarCarrito()" -->
+                    <a href="" class="primary-btn order-submit" onclick="guardarCarrito()" >Enviar correo</a>
+                  <% } %>
+                
+            </div>
+            <!-- /Order Details -->
+        </div>
+        <!-- /row -->
+    </div>
+
+</body>
+</html>
