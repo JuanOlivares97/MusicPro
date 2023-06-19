@@ -260,10 +260,9 @@ app.post('/guardar-carrito', (req, res) => {
   const direccion= req.body.direccion;
   const ciudad= req.body.ciudad;
   const telefono= req.body.telefono;
-
   // Realizar la inserción en la tabla "compra"
   const queryCompra = 'INSERT INTO `compra`(`total`, `cliente_id`, `NombreCliente`, `ApellidoCliente`, `CorreoElectronico`, `Direccion`, `Ciudad`, `Telefono`) VALUES (?,?,?,?,?,?,?,?)';
-  connection.query(queryCompra, [totalCompra, idCliente,nombre,apellido,correo,direccion,ciudad,telefono], function(err, resultCompra) {
+  connection.query(queryCompra, [totalCompra, idCliente, nombre, apellido, correo, direccion, ciudad, telefono], function (err, resultCompra) {
     if (err) {
       console.error('Error al ingresar los datos en la tabla "compra":', err);
       res.status(500).json({ error: 'Error al ingresar los datos' });
@@ -275,7 +274,7 @@ app.post('/guardar-carrito', (req, res) => {
       const queryDetalleCompra = 'INSERT INTO `detalle_compra`(`compra_id`, `referencia`, `producto_nombre`, `precio`, `cantidad`) VALUES (?, ?, ?, ?, ?)';
       productos.forEach(function (producto) {
         const { referencia, nombreProducto, precioProducto, cantidad } = producto;
-        connection.query(queryDetalleCompra, [compraId, referencia, nombreProducto, precioProducto, cantidad], function(err, resultDetalleCompra) {
+        connection.query(queryDetalleCompra, [compraId, referencia, nombreProducto, precioProducto, cantidad], function (err, resultDetalleCompra) {
           if (err) {
             console.error('Error al ingresar los datos en la tabla "detalle compra":', err);
           } else {
@@ -287,7 +286,7 @@ app.post('/guardar-carrito', (req, res) => {
         const { referencia, cantidad } = producto;
         console.log(referencia, cantidad);
         const queryActualizarStock = 'UPDATE `productos` SET `stock` = `stock` - ? WHERE `referencia` = ?';
-        connection.query(queryActualizarStock, [cantidad, referencia], function(err, resultActualizarStock) {
+        connection.query(queryActualizarStock, [cantidad, referencia], function (err, resultActualizarStock) {
           if (err) {
             console.error('Error al actualizar el stock del producto:', err);
           } else {
@@ -331,7 +330,7 @@ app.post('/guardar-carrito', (req, res) => {
     <p>¡Gracias por tu atención!</p>
   ` // Contenido del correo en formato de texto sin formato
   };
-  transporter.sendMail(mailOptions, function(error, info){
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.error('Error al enviar el correo:', error);
     } else {
