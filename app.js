@@ -260,9 +260,11 @@ app.post('/guardar-carrito', (req, res) => {
   const direccion= req.body.direccion;
   const ciudad= req.body.ciudad;
   const telefono= req.body.telefono;
+  const tipoPago = req.body.tipoPago;
+  
   // Realizar la inserción en la tabla "compra"
-  const queryCompra = 'INSERT INTO `compra`(`total`, `cliente_id`, `NombreCliente`, `ApellidoCliente`, `CorreoElectronico`, `Direccion`, `Ciudad`, `Telefono`) VALUES (?,?,?,?,?,?,?,?)';
-  connection.query(queryCompra, [totalCompra, idCliente, nombre, apellido, correo, direccion, ciudad, telefono], function (err, resultCompra) {
+  const queryCompra = 'INSERT INTO `compra`(`total`, `cliente_id`, `NombreCliente`, `ApellidoCliente`, `CorreoElectronico`, `Direccion`, `Ciudad`, `Telefono`,`tipoPago`) VALUES (?,?,?,?,?,?,?,?,?)';
+  connection.query(queryCompra, [totalCompra, idCliente, nombre, apellido, correo, direccion, ciudad, telefono, tipoPago], function (err, resultCompra) {
     if (err) {
       console.error('Error al ingresar los datos en la tabla "compra":', err);
       res.status(500).json({ error: 'Error al ingresar los datos' });

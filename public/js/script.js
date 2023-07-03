@@ -220,127 +220,143 @@ function limpiarCarrito() {
   localStorage.removeItem("carrito");
 }
 
-function guardarCarritoUser() {
-  var nombre = document.getElementsByName("nombre")[0].value;
-  var apellido = document.getElementsByName("apellido")[0].value;
-  var correo = document.getElementsByName("correo")[0].value;
-  var direccion = document.getElementsByName("direccion")[0].value;
-  var ciudad = document.getElementsByName("ciudad")[0].value;
-  var telefono = document.getElementsByName("telefono")[0].value;
-  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  var subtotal = carrito.reduce(function (total, producto) {
-    return total + producto.precioTotal;
-  }, 0);
-  console.log(carrito);
-  const productos = carrito.map(function (producto) {
-    return {
-      referencia: producto.referencia,
-      nombreProducto: producto.nombre,
-      precioProducto: producto.precio,
-      cantidad: producto.cantidad,
-    };
-  });
-
-  const descuento =
-    productos.reduce(function (total, producto) {
-      return total + producto.cantidad;
-    }, 0) > 4
-      ? 0.2
-      : 0;
-
-  const totalConDescuento = subtotal - subtotal * descuento;
-
-  const data = {
-    totalCompra: totalConDescuento,
-    productos: productos,
-    nombre: nombre,
-    apellido: apellido,
-    correo: correo,
-    direccion: direccion,
-    ciudad: ciudad,
-    telefono: telefono,
-  };
-  console.log(data);
-  // Configuración de la solicitud
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-
-  // Realizar la solicitud
-  fetch("/guardar-carrito", options)
-    .then((response) => response.json())
-    .then((data) => {
-      // Manejar la respuesta
-      console.log(data);
-    })
-    .catch((error) => {
-      // Manejar el error
-      console.error(error);
+async function guardarCarritoUser() {
+  try {
+    var nombre = document.getElementsByName("nombre")[0].value;
+    var apellido = document.getElementsByName("apellido")[0].value;
+    var correo = document.getElementsByName("correo")[0].value;
+    var direccion = document.getElementsByName("direccion")[0].value;
+    var ciudad = document.getElementsByName("ciudad")[0].value;
+    var telefono = document.getElementsByName("telefono")[0].value;
+    var metodoPagoSeleccionado = obtenerMetodoPagoSeleccionado();
+    console.log(metodoPagoSeleccionado);
+    var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    var subtotal = carrito.reduce(function (total, producto) {
+      return total + producto.precioTotal;
+    }, 0);
+    console.log(carrito);
+    const productos = carrito.map(function (producto) {
+      return {
+        referencia: producto.referencia,
+        nombreProducto: producto.nombre,
+        precioProducto: producto.precio,
+        cantidad: producto.cantidad,
+      };
     });
 
-  limpiarCarrito();
-  window.location.href = "http://localhost:3000/tbnk/transbank?amount="+subtotal;
-};
+    const descuento =
+      productos.reduce(function (total, producto) {
+        return total + producto.cantidad;
+      }, 0) > 4
+        ? 0.2
+        : 0;
 
-function guardarCarrito() {
-  var nombre = document.getElementsByName("nombre")[0].value;
-  var apellido = document.getElementsByName("apellido")[0].value;
-  var correo = document.getElementsByName("correo")[0].value;
-  var direccion = document.getElementsByName("direccion")[0].value;
-  var ciudad = document.getElementsByName("ciudad")[0].value;
-  var telefono = document.getElementsByName("telefono")[0].value;
-  var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  var subtotal = carrito.reduce(function (total, producto) {
-    return total + producto.precioTotal;
-  }, 0);
-  console.log(carrito);
-  const productos = carrito.map(function (producto) {
-    return {
-      referencia: producto.referencia,
-      nombreProducto: producto.nombre,
-      precioProducto: producto.precio,
-      cantidad: producto.cantidad,
+    const totalConDescuento = subtotal - subtotal * descuento;
+
+    const data = {
+      totalCompra: totalConDescuento,
+      productos: productos,
+      nombre: nombre,
+      apellido: apellido,
+      correo: correo,
+      direccion: direccion,
+      ciudad: ciudad,
+      telefono: telefono,
+      tipoPago: metodoPagoSeleccionado,
     };
-  });
-  const data = {
-    totalCompra: subtotal,
-    productos: productos,
-    nombre: nombre,
-    apellido: apellido,
-    correo: correo,
-    direccion: direccion,
-    ciudad: ciudad,
-    telefono: telefono,
-  };
-  console.log(data);
-  // Configuración de la solicitud
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
+    console.log(data);
 
-  // Realizar la solicitud
-  fetch("/guardar-carrito", options)
-    .then((response) => response.json())
-    .then((data) => {
-      // Manejar la respuesta
-      console.log(data);
-    })
-    .catch((error) => {
-      // Manejar el error
-      console.error(error);
+    // Configuración de la solicitud
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    // Realizar la solicitud
+    const response = await fetch("/guardar-carrito", options);
+    const responseData = await response.json();
+    console.log(responseData);
+
+    limpiarCarrito();
+    console.log(metodoPagoSeleccionado);
+    if (metodoPagoSeleccionado == "WebPay") {
+      window.location.href =
+        "http://localhost:3000/tbnk/transbank?amount=" + subtotal;
+    } else {
+      window.location.href = "http://localhost:3000/";
+    }
+  } catch (error) {
+    // Manejar el error
+    console.error(error);
+  }
+}
+
+
+async function guardarCarrito() {
+  try {
+    var nombre = document.getElementsByName("nombre")[0].value;
+    var apellido = document.getElementsByName("apellido")[0].value;
+    var correo = document.getElementsByName("correo")[0].value;
+    var direccion = document.getElementsByName("direccion")[0].value;
+    var ciudad = document.getElementsByName("ciudad")[0].value;
+    var telefono = document.getElementsByName("telefono")[0].value;
+    var metodoPagoSeleccionado = obtenerMetodoPagoSeleccionado();
+    console.log(metodoPagoSeleccionado);
+    var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    var subtotal = carrito.reduce(function (total, producto) {
+      return total + producto.precioTotal;
+    }, 0);
+    console.log(carrito);
+    const productos = carrito.map(function (producto) {
+      return {
+        referencia: producto.referencia,
+        nombreProducto: producto.nombre,
+        precioProducto: producto.precio,
+        cantidad: producto.cantidad,
+      };
     });
+    const data = {
+      totalCompra: subtotal,
+      productos: productos,
+      nombre: nombre,
+      apellido: apellido,
+      correo: correo,
+      direccion: direccion,
+      ciudad: ciudad,
+      telefono: telefono,
+      tipoPago: metodoPagoSeleccionado,
+    };
+    console.log(data);
+    
+    // Configuración de la solicitud
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
 
-  limpiarCarrito();
-  window.location.href = "http://localhost:3000/tbnk/transbank?amount="+subtotal;
-};
+    // Realizar la solicitud
+    const response = await fetch("/guardar-carrito", options);
+    const responseData = await response.json();
+    console.log(responseData);
+
+    limpiarCarrito();
+    if (metodoPagoSeleccionado == 'WebPay') {
+      window.location.href = "http://localhost:3000/tbnk/transbank?amount=" + subtotal;
+    } else {
+      window.location.href = "http://localhost:3000/";
+    }
+  } catch (error) {
+    // Manejar el error
+    console.error(error);
+  }
+}
+
 
 function enviarTransbankUser(){
   var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -377,13 +393,27 @@ function enviarTransbank(){
   window.location.href = "http://localhost:3000/tbnk/transbank?amount="+subtotal;
 }
 
+function obtenerMetodoPagoSeleccionado() {
+  var opciones = document.getElementsByName("payment");
+
+  for (var i = 0; i < opciones.length; i++) {
+    if (opciones[i].checked) {
+      return opciones[i].value;
+    }
+  }
+
+  return null; // Si no se seleccionó ninguna opción
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   // Verifica si la página actual corresponde a la ruta "checkout"
   if (window.location.pathname === "/checkout-user") {
     // Llama a la función para llenar los div en la página de checkout
     llenarOrderSummary();
+    obtenerMetodoPagoSeleccionado();
   } else if (window.location.pathname === "/checkout-invite") {
     llenarOrderSummaryInvitado();
+    obtenerMetodoPagoSeleccionado();
   }
 });
 // Llama a la función para calcular el subtotal y actualizar el carrito cuando se cargue la página
